@@ -1,10 +1,151 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Snug — cozy logic puzzles</title><link rel="stylesheet" href="style.css"></head><body><main>
-<header><img src="icon.png" alt=""><h1>Snug</h1></header>
-<p style="font-size:21px">Every critter needs its own snug spot. A calm, fair logic puzzle for a few minutes a day.</p>
-<div class="card"><strong>Simple rules.</strong> One critter in every row, every column and every colored patch, and no two critters may touch, not even corner to corner.</div>
-<div class="card"><strong>Fair, always.</strong> Every puzzle has exactly one answer you can reach by pure logic. No guessing, no timers you have to beat, no lives.</div>
-<div class="card"><strong>A daily habit.</strong> A new daily puzzle for everyone, a streak widget, Game Center leaderboards and a share card for friends.</div>
-<div class="card"><strong>No ads, ever.</strong> The daily puzzle, the first 100 levels and your streak are free forever. Snug Club adds two extra dailies, all 300 levels, the archive, unlimited hints and every theme.</div>
-<nav><a href="support.html">Help &amp; support</a><a href="privacy.html">Privacy policy</a><a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/">Terms of use</a></nav>
-</main></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Snug: Cozy Daily Logic Puzzles</title>
+<meta name="description" content="A cozy daily logic puzzle for iPhone. One critter in every row, column and color, and no two may touch. No ads, no lives, no guessing.">
+<meta name="apple-itunes-app" content="app-id=6815366788">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#FBF5EC" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1C1719" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://idanrk.github.io/snug/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Snug">
+<meta property="og:title" content="Snug: Cozy Daily Logic Puzzles">
+<meta property="og:description" content="A cozy daily logic puzzle for iPhone. No ads, no lives, no guessing.">
+<meta property="og:url" content="https://idanrk.github.io/snug/">
+<meta property="og:image" content="https://idanrk.github.io/snug/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Snug's critters on a cozy sofa, beside the words: cozy daily logic puzzles.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preload" as="image" href="img/board.webp" fetchpriority="high">
+<link rel="stylesheet" href="style.css">
+<script>document.documentElement.classList.add("js")</script>
+</head>
+<body class="home">
+
+<header class="bar wrap">
+  <a class="brand" href="./"><img src="img/icon.webp" width="36" height="36" alt=""> Snug</a>
+  <a class="bar-link" href="support.html">Help &amp; support</a>
+</header>
+
+<main>
+  <section class="hero wrap">
+    <div class="hero-copy">
+      <h1>Every critter needs a snug spot.</h1>
+      <p class="lede">A cozy daily logic puzzle for iPhone. One critter in every row, column and color, and no two may touch.</p>
+      <a class="store" href="https://apps.apple.com/app/id6815366788">
+        <picture>
+          <source media="(prefers-color-scheme: dark)" srcset="https://toolbox.marketingtools.apple.com/api/v2/badges/download-on-the-app-store/white/en-us">
+          <img src="https://toolbox.marketingtools.apple.com/api/v2/badges/download-on-the-app-store/black/en-us" width="162" height="54" alt="Download on the App Store">
+        </picture>
+      </a>
+    </div>
+    <div class="hero-art">
+      <div class="phone">
+        <img src="img/board.webp" width="660" height="1434" fetchpriority="high" alt="A Snug puzzle in progress: four critters sit in different color patches of an 8 by 8 board, and more wait in the tray below.">
+      </div>
+      <img class="lily" src="img/lily.webp" width="241" height="212" alt="">
+    </div>
+  </section>
+
+  <section class="try wrap reveal" aria-labelledby="try-title">
+    <div class="try-board">
+      <div class="board" id="board" role="group" aria-label="The first puzzle, 5 by 5"></div>
+      <div class="tray" id="tray" aria-hidden="true"></div>
+    </div>
+    <div class="try-copy">
+      <h2 id="try-title">Try the first puzzle</h2>
+      <p>Every row, column and color gets exactly one critter, and critters can't touch, not even at the corners. Tap a square to place one.</p>
+      <p class="status" id="status" role="status" aria-live="polite">5 critters to place.</p>
+      <div class="after" id="after" hidden>
+        <a class="store" href="https://apps.apple.com/app/id6815366788">
+          <picture>
+            <source media="(prefers-color-scheme: dark)" srcset="https://toolbox.marketingtools.apple.com/api/v2/badges/download-on-the-app-store/white/en-us">
+            <img src="https://toolbox.marketingtools.apple.com/api/v2/badges/download-on-the-app-store/black/en-us" width="162" height="54" alt="Download on the App Store" loading="lazy">
+          </picture>
+        </a>
+        <button class="again" id="again" type="button">Play again</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="features wrap" aria-labelledby="features-title">
+    <h2 id="features-title" class="visually-hidden">What's in Snug</h2>
+    <div class="grid">
+      <article class="tile t-daily reveal">
+        <div class="tile-copy">
+          <h3>A new daily puzzle, every day</h3>
+          <p>Same puzzle for everyone. Keep your streak cozy, with a widget on your Home Screen.</p>
+        </div>
+        <div class="tile-art"><img src="img/today.webp" width="900" height="1017" loading="lazy" alt="The Today screen: a 22 day streak and today's daily puzzle."></div>
+      </article>
+      <article class="tile t-path reveal" style="--d: 70ms">
+        <div class="tile-copy">
+          <h3>300 levels to wander</h3>
+          <p>From the meadow all the way to the Moon Garden.</p>
+        </div>
+        <div class="tile-art"><img src="img/path.webp" width="760" height="807" loading="lazy" alt="The level map: a winding path past lily ponds, with level 37 up next."></div>
+      </article>
+      <article class="tile t-hints reveal">
+        <div class="tile-copy">
+          <h3>Hints that teach</h3>
+          <p>Stuck? A hint shows the next step and why it works. No guessing, ever.</p>
+        </div>
+        <div class="tile-art">
+          <img class="board-slice" src="img/hint-board.webp" width="760" height="391" loading="lazy" alt="">
+          <img class="hint-card" src="img/hint-card.webp" width="760" height="329" loading="lazy" alt="A hint: the rose patch has just one open spot left, so its critter goes right there.">
+        </div>
+      </article>
+      <article class="tile t-friends reveal" style="--d: 70ms">
+        <div class="tile-copy">
+          <h3>Befriend 56 critters</h3>
+          <p>Hedgehogs, owls, frogs, foxes and more. Win gifts as you play.</p>
+        </div>
+        <div class="tile-art">
+          <picture>
+            <source media="(prefers-color-scheme: dark)" srcset="img/nook-night.webp">
+            <img src="img/nook-day.webp" width="960" height="538" loading="lazy" alt="Critter friends relaxing on a sofa in a cozy living room.">
+          </picture>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="promise wrap reveal" aria-labelledby="promise-title">
+    <h2 id="promise-title">No ads. No lives. No guessing.</h2>
+    <div class="plans">
+      <div>
+        <h3>Free, forever</h3>
+        <p>The daily puzzle, the first 100 levels, your streak and the widget. Every puzzle has one answer you can reach by logic alone.</p>
+      </div>
+      <div class="club">
+        <h3>Snug Club</h3>
+        <p>Two extra dailies a day, all 300 levels, every past daily, unlimited hints and every theme. Monthly, yearly with a free week, or once for life.</p>
+      </div>
+    </div>
+    <a class="store" href="https://apps.apple.com/app/id6815366788">
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="https://toolbox.marketingtools.apple.com/api/v2/badges/download-on-the-app-store/white/en-us">
+        <img src="https://toolbox.marketingtools.apple.com/api/v2/badges/download-on-the-app-store/black/en-us" width="162" height="54" alt="Download on the App Store" loading="lazy">
+      </picture>
+    </a>
+  </section>
+</main>
+
+<footer class="foot wrap">
+  <a class="brand" href="./"><img src="img/icon.webp" width="28" height="28" alt=""> Snug</a>
+  <nav aria-label="More">
+    <a href="support.html">Help &amp; support</a>
+    <a href="privacy.html">Privacy policy</a>
+    <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/">Terms of use</a>
+  </nav>
+</footer>
+
+<script src="puzzle.js" defer></script>
+</body>
+</html>

@@ -141,6 +141,21 @@
     cells[0].focus();
   });
 
+  // Pass the puzzle on: the share sheet on phones, a copied link elsewhere.
+  const share = document.getElementById("share");
+  share.addEventListener("click", async () => {
+    const url = "https://idanrk.github.io/snug/#try";
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: "Snug", text: "A cozy logic puzzle: one critter in every row, column and color, and no two may touch. Can you solve it?", url });
+      } else {
+        await navigator.clipboard.writeText(url);
+        share.textContent = "Link copied";
+        setTimeout(() => { share.textContent = "Send it to a friend"; }, 1800);
+      }
+    } catch { /* closed the share sheet */ }
+  });
+
   // Arrow keys move between squares (one tab stop for the whole board).
   function move(e, i) {
     const r = row(i), c = col(i);

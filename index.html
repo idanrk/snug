@@ -38,12 +38,10 @@
     <div class="hero-copy">
       <h1>Every critter needs a snug spot.</h1>
       <p class="lede">A cozy daily logic puzzle for iPhone. One critter in every row, column and color, and no two may touch.</p>
-      <a class="store" href="https://apps.apple.com/app/id6815366788">
-        <picture>
-          <source media="(prefers-color-scheme: dark)" srcset="https://toolbox.marketingtools.apple.com/api/v2/badges/download-on-the-app-store/white/en-us">
-          <img src="https://toolbox.marketingtools.apple.com/api/v2/badges/download-on-the-app-store/black/en-us" width="162" height="54" alt="Download on the App Store">
-        </picture>
-      </a>
+      <div class="cta">
+        <a class="play" href="#try">Try the first puzzle</a>
+        <div class="soon" data-store>Coming soon to the App Store</div>
+      </div>
     </div>
     <div class="hero-art">
       <div class="phone">
@@ -53,7 +51,7 @@
     </div>
   </section>
 
-  <section class="try wrap reveal" aria-labelledby="try-title">
+  <section class="try wrap reveal" id="try" aria-labelledby="try-title">
     <div class="try-board">
       <div class="board" id="board" role="group" aria-label="The first puzzle, 5 by 5"></div>
       <div class="tray" id="tray" aria-hidden="true"></div>
@@ -63,13 +61,9 @@
       <p>Every row, column and color gets exactly one critter, and critters can't touch, not even at the corners. Tap a square to place one.</p>
       <p class="status" id="status" role="status" aria-live="polite">5 critters to place.</p>
       <div class="after" id="after" hidden>
-        <a class="store" href="https://apps.apple.com/app/id6815366788">
-          <picture>
-            <source media="(prefers-color-scheme: dark)" srcset="https://toolbox.marketingtools.apple.com/api/v2/badges/download-on-the-app-store/white/en-us">
-            <img src="https://toolbox.marketingtools.apple.com/api/v2/badges/download-on-the-app-store/black/en-us" width="162" height="54" alt="Download on the App Store" loading="lazy">
-          </picture>
-        </a>
+        <div class="soon" data-store>Coming soon to the App Store</div>
         <button class="again" id="again" type="button">Play again</button>
+        <button class="again" id="share" type="button">Send it to a friend</button>
       </div>
     </div>
   </section>
@@ -128,12 +122,7 @@
         <p>Two extra dailies a day, all 300 levels, every past daily, unlimited hints and every theme. Monthly, yearly with a free week, or once for life.</p>
       </div>
     </div>
-    <a class="store" href="https://apps.apple.com/app/id6815366788">
-      <picture>
-        <source media="(prefers-color-scheme: dark)" srcset="https://toolbox.marketingtools.apple.com/api/v2/badges/download-on-the-app-store/white/en-us">
-        <img src="https://toolbox.marketingtools.apple.com/api/v2/badges/download-on-the-app-store/black/en-us" width="162" height="54" alt="Download on the App Store" loading="lazy">
-      </picture>
-    </a>
+    <div class="soon" data-store>Coming soon to the App Store</div>
   </section>
 </main>
 
@@ -141,11 +130,13 @@
   <a class="brand" href="./"><img src="img/icon.webp" width="28" height="28" alt=""> Snug</a>
   <nav aria-label="More">
     <a href="support.html">Help &amp; support</a>
+    <a href="press.html">Press kit</a>
     <a href="privacy.html">Privacy policy</a>
     <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/">Terms of use</a>
   </nav>
 </footer>
 
 <script src="puzzle.js" defer></script>
+<script src="store.js" defer></script>
 </body>
 </html>

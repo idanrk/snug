@@ -1,4 +1,4 @@
-// The App Store buttons. Before launch each [data-store] spot is a "coming soon" label, because the
+// The App Store buttons. Before launch each [data-store] spot is a "coming" label, because the
 // App Store link is a dead end until Apple releases the app. Once Apple's lookup finds Snug (released,
 // or open for pre-order), every spot becomes the real badge, with no site update needed.
 // After launch, put the badges back in the HTML and this does nothing.

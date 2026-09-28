@@ -56,7 +56,7 @@
   forms.forEach(form => form.addEventListener("submit", e => {
     if (byEmail) {
       e.preventDefault();
-      const body = `Please add me to the Snug launch list: ${form.elements.email.value.trim()}`;
+      const body = `Please add me to the Snug launch list: ${form.elements.email_address.value.trim()}`;
       location.href = `${main.getAttribute("action")}&body=${encodeURIComponent(body)}`;
     } else {
       try { localStorage.setItem(key, "1"); } catch { /* storage blocked */ }

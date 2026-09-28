@@ -30,12 +30,16 @@
 
 <header class="bar wrap">
   <a class="brand" href="./"><img src="img/icon.webp" width="36" height="36" alt=""> Snug</a>
-  <a class="bar-link" href="support.html">Help &amp; support</a>
+  <nav class="bar-nav" aria-label="Main">
+    <a class="bar-link" href="support.html">Help &amp; support</a>
+    <a class="bar-cta" href="#launch">Get the launch gift</a>
+  </nav>
 </header>
 
 <main>
   <section class="hero wrap">
     <div class="hero-copy">
+      <a class="gift-pill" href="#launch"><span class="gift-pill-tag">Launch gift</span> A free month of Snug Club <span class="gift-pill-arrow" aria-hidden="true">→</span></a>
       <h1>Every critter needs a snug spot.</h1>
       <p class="lede">A cozy daily logic puzzle for iPhone. One critter in every row, column and color, and no two may touch.</p>
       <div class="cta">
@@ -64,6 +68,7 @@
         <div class="soon" data-store>Coming to iPhone Oct 20</div>
         <button class="again" id="again" type="button">Play again</button>
         <button class="again" id="share" type="button">Send it to a friend</button>
+        <p class="after-note">Liked it? <a href="#launch">Join the launch list</a> for a free month of Snug Club.</p>
       </div>
     </div>
   </section>
@@ -113,16 +118,92 @@
   <section class="promise wrap reveal" aria-labelledby="promise-title">
     <h2 id="promise-title">No ads. No lives. No guessing.</h2>
     <div class="plans">
-      <div>
+      <div class="plan">
         <h3>Free, forever</h3>
-        <p>The daily puzzle, the first 100 levels, your streak and the widget. Every puzzle has one answer you can reach by logic alone.</p>
+        <p class="price">No ads, no catch</p>
+        <ul class="ticks">
+          <li>The daily puzzle, every day</li>
+          <li>The first 100 levels</li>
+          <li>Your streak and the widget</li>
+          <li>One answer per puzzle, reachable by logic alone</li>
+        </ul>
       </div>
-      <div class="club">
+      <div class="plan club">
         <h3>Snug Club</h3>
-        <p>Two extra dailies a day, all 300 levels, every past daily, unlimited hints and every theme. Monthly, yearly with a free week, or once for life.</p>
+        <p class="price">$2.99 a month, $14.99 a year with a free week, or $29.99 once for life</p>
+        <ul class="ticks">
+          <li>Two extra dailies a day</li>
+          <li>All 300 levels and every past daily</li>
+          <li>Unlimited hints and every theme</li>
+        </ul>
+        <a class="plan-gift" href="#launch">Your first month is free with the launch gift</a>
       </div>
     </div>
     <div class="soon" data-store>Coming to iPhone Oct 20</div>
+  </section>
+
+  <section class="launch wrap reveal" id="launch" aria-labelledby="launch-title">
+    <div class="launch-card" id="launch-card">
+      <div class="peek" aria-hidden="true">
+        <img src="img/critters/hazel.webp" width="157" height="176" loading="lazy" alt="">
+        <img src="img/critters/pip.webp" width="176" height="176" loading="lazy" alt="">
+        <img src="img/critters/oswin.webp" width="153" height="176" loading="lazy" alt="">
+        <img src="img/critters/rowan.webp" width="176" height="166" loading="lazy" alt="">
+      </div>
+      <div class="launch-copy">
+        <p class="eyebrow">The launch list</p>
+        <h2 id="launch-title">Save yourself a snug spot</h2>
+        <p>Snug comes to iPhone on October 20. Join the launch list for a note the day it's out, plus a pre-launch gift: your first month of Snug Club, free.</p>
+        <div class="date">
+          <span class="cal" aria-hidden="true"><span>Oct</span>20</span>
+          <span id="countdown" data-date="2026-10-20">Launching October 20</span>
+        </div>
+      </div>
+
+      <div class="launch-gift">
+        <div class="ticket" id="ticket">
+          <div class="ticket-top">
+            <span class="ticket-label">Pre-launch gift</span>
+            <strong>1 month of Snug Club, free</strong>
+            <span class="ticket-sub">Redeem on the App Store from Oct 20</span>
+          </div>
+          <div class="ticket-code">
+            <code id="code" aria-hidden="true">SNUGEARLY</code>
+            <span class="ticket-hint" id="code-hint">Join to unwrap your code</span>
+            <button class="copy" id="copy" type="button" hidden>Copy</button>
+          </div>
+        </div>
+
+        <!-- Where signups go. For now, a pre-filled email to the developer (launch.js writes it; without
+             JavaScript the browser does). Once the list lives on Buttondown, swap this opening tag for:
+             <form class="signup" id="signup" action="https://buttondown.com/api/emails/embed-subscribe/USERNAME" method="post" target="_blank">
+             Buttondown then opens its own confirm step in a new tab, and the page still reveals the gift. -->
+        <form class="signup" id="signup" action="mailto:idanr391@gmail.com?subject=Snug%20launch%20list" method="post" enctype="text/plain">
+          <label class="visually-hidden" for="email">Email address</label>
+          <div class="field">
+            <input id="email" name="email" type="email" required autocomplete="email" enterkeyhint="send" placeholder="you@example.com">
+            <button type="submit">Get my gift</button>
+          </div>
+          <input type="hidden" name="tag" value="prelaunch">
+          <input type="hidden" name="embed" value="1">
+          <p class="fine">Only Snug news: the launch, and a rare update. Unsubscribe anytime. <a href="privacy.html#launch-list">Privacy</a></p>
+        </form>
+
+        <div class="joined" id="joined" tabindex="-1" hidden>
+          <h3 class="by-list">You're on the list!</h3>
+          <h3 class="by-email" hidden>Almost there!</h3>
+          <p class="by-email" hidden>Your email app should open with a note ready to go. Send it, and you're on the list. (No email app? Write to <a href="mailto:idanr391@gmail.com?subject=Snug%20launch%20list">idanr391@gmail.com</a>.)</p>
+          <p>Your code is above. Redeem it on the App Store from October 20, and it'll be in your launch-day email too.</p>
+          <div class="joined-actions">
+            <a class="redeem" href="https://apps.apple.com/redeem?ctx=offercodes&amp;id=6815366788&amp;code=SNUGEARLY">Redeem now</a>
+            <button class="again" id="gift-share" type="button">Send a friend the gift</button>
+          </div>
+          <p class="fine">One code per Apple Account. After the free month, Snug Club renews unless you cancel.</p>
+        </div>
+
+        <p class="follow">Or follow along: <a href="https://www.tiktok.com/@snugpuzzle">TikTok</a> · <a href="https://www.instagram.com/snugpuzzle/">Instagram</a> · <a href="https://www.youtube.com/@SnugPuzzle">YouTube</a> · <a href="https://x.com/SnugPuzzle">X</a></p>
+      </div>
+    </div>
   </section>
 </main>
 
@@ -142,5 +223,6 @@
 
 <script src="puzzle.js" defer></script>
 <script src="store.js" defer></script>
+<script src="launch.js" defer></script>
 </body>
 </html>

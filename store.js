@@ -1,6 +1,8 @@
 // The App Store buttons. Before launch each [data-store] spot is a "coming" label, because the
 // App Store link is a dead end until Apple releases the app. Once Apple's lookup finds Snug (released,
 // or open for pre-order), every spot becomes the real badge, with no site update needed.
+// Once it's out (not just open for pre-order), the page is marked live, which shows the launch gift's
+// "Redeem now" link: offer codes only work on a released app.
 // After launch, put the badges back in the HTML and this does nothing.
 (() => {
   const spots = document.querySelectorAll("[data-store]");
@@ -17,8 +19,9 @@
   };
   fetch("https://itunes.apple.com/lookup?id=6815366788&country=us")
     .then((r) => r.json())
-    .then(({ resultCount }) => {
+    .then(({ resultCount, results }) => {
       if (!resultCount) return;
+      if (new Date(results[0].releaseDate) <= new Date()) document.documentElement.classList.add("live");
       spots.forEach((spot, i) => spot.replaceWith(badge(i > 0)));
     })
     .catch(() => {});

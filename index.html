@@ -46,6 +46,24 @@
         <a class="play" href="#try">Try the first puzzle</a>
         <div class="soon" data-store>Coming to iPhone Oct 20</div>
       </div>
+      <div class="hero-join">
+        <!-- Sends wherever the launch section's form does (launch.js copies its action over). -->
+        <form class="signup" id="hero-signup" action="mailto:idanr391@gmail.com?subject=Snug%20launch%20list" method="post" enctype="text/plain" data-joined="hero-joined">
+          <label class="visually-hidden" for="hero-email">Email address</label>
+          <div class="field">
+            <input id="hero-email" name="email" type="email" required autocomplete="email" enterkeyhint="send" placeholder="you@example.com">
+            <button type="submit">Get my gift</button>
+          </div>
+          <input type="hidden" name="tag" value="prelaunch">
+          <input type="hidden" name="embed" value="1">
+          <p class="fine">Join the launch list for a note on Oct 20 and a free month of Snug Club.</p>
+        </form>
+        <p class="hero-joined" id="hero-joined" tabindex="-1" hidden>
+          <strong class="by-list">You're on the list!</strong>
+          <strong class="by-email" hidden>Almost there: send the email that just opened.</strong>
+          Your gift code is <code>SNUGEARLY</code>. <a href="#launch">How to redeem it</a>
+        </p>
+      </div>
     </div>
     <div class="hero-art">
       <div class="phone">
@@ -64,6 +82,7 @@
       <h2 id="try-title">Try the first puzzle</h2>
       <p>Every row, column and color gets exactly one critter, and critters can't touch, not even at the corners. Tap a square to place one.</p>
       <p class="status" id="status" role="status" aria-live="polite">5 critters to place.</p>
+      <button class="again show-me" id="demo" type="button">Show me how</button>
       <div class="after" id="after" hidden>
         <div class="soon" data-store>Coming to iPhone Oct 20</div>
         <button class="again" id="again" type="button">Play again</button>
@@ -177,7 +196,8 @@
         <!-- Where signups go. For now, a pre-filled email to the developer (launch.js writes it; without
              JavaScript the browser does). Once the list lives on Buttondown, swap this opening tag for:
              <form class="signup" id="signup" action="https://buttondown.com/api/emails/embed-subscribe/USERNAME" method="post" target="_blank">
-             Buttondown then opens its own confirm step in a new tab, and the page still reveals the gift. -->
+             Buttondown then opens its own confirm step in a new tab, and the page still reveals the gift.
+             The hero's form follows this one. -->
         <form class="signup" id="signup" action="mailto:idanr391@gmail.com?subject=Snug%20launch%20list" method="post" enctype="text/plain">
           <label class="visually-hidden" for="email">Email address</label>
           <div class="field">

@@ -31,11 +31,12 @@
   const tray = document.getElementById("tray");
   const status = document.getElementById("status");
   const after = document.getElementById("after");
+  const demo = document.getElementById("demo");
   if (!board) return;
 
   const row = i => Math.floor(i / N), col = i => i % N;
   const placed = new Set();
-  let solved = false, last = null;
+  let solved = false, last = null, playing = false, run = 0;
 
   // Board
   const cells = regions.map((r, i) => {
@@ -48,7 +49,7 @@
     if (row(i) === N - 1) b.classList.add("last-r");
     else if (regions[i + N] !== r) b.classList.add("edge-b");
     b.tabIndex = i === 0 ? 0 : -1;
-    b.addEventListener("click", () => toggle(i));
+    b.addEventListener("click", () => { if (!playing) toggle(i); });
     b.addEventListener("keydown", e => move(e, i));
     board.append(b);
     return b;
@@ -115,7 +116,7 @@
     const left = N - placed.size;
     if (reason) status.textContent = reason;
     else if (left === 0) win();
-    else status.textContent = left === N ? "5 critters to place." : `${left} to go.`;
+    else if (!playing) status.textContent = left === N ? "5 critters to place." : `${left} to go.`;
   }
 
   function win() {
@@ -128,17 +129,58 @@
     });
     board.classList.add("won");
     after.hidden = false;
+    demo.hidden = true;
   }
 
-  document.getElementById("again").addEventListener("click", () => {
+  function reset() {
+    run++; // stops a "Show me how" that's still going
+    playing = false;
+    board.removeAttribute("aria-busy");
+    cells.forEach(c => c.classList.remove("lit", "target"));
     solved = false;
     board.classList.remove("won");
     placed.clear();
     cells.forEach(c => c.querySelectorAll("img").forEach(img => img.remove()));
     after.hidden = true;
+    demo.hidden = false;
     update();
+  }
+
+  document.getElementById("again").addEventListener("click", () => {
+    reset();
     cells.forEach((c, i) => { c.tabIndex = i === 0 ? 0 : -1; });
     cells[0].focus();
+  });
+
+  // "Show me how": the puzzle solves itself one logical step at a time, like the app's hints. Each step
+  // lights up a patch, rings the one square left for its critter and says why, then sets it down.
+  const steps = [
+    [0, "The sky patch is a single square, so its critter goes right there."],
+    [7, "The dots mark squares that are now ruled out. That leaves the butter patch just one open square."],
+    [14, "The top two rows are taken, so the orchid patch has one spot left."],
+    [16, "Two rows and two columns are left, and the coral patch has only one square in them."],
+    [23, "One row, one column and one color to go, and they meet right here."],
+  ];
+  const wait = ms => new Promise(done => setTimeout(done, ms));
+  demo.addEventListener("click", async () => {
+    reset();
+    const me = run;
+    playing = true;
+    demo.hidden = true;
+    board.setAttribute("aria-busy", "true");
+    for (const [i, why] of steps) {
+      cells.forEach((c, j) => c.classList.toggle("lit", regions[j] === regions[i]));
+      cells[i].classList.add("target");
+      status.textContent = why;
+      await wait(2200);
+      if (me !== run) return;
+      cells.forEach(c => c.classList.remove("lit", "target"));
+      toggle(i);
+      await wait(700);
+      if (me !== run) return;
+    }
+    playing = false;
+    board.removeAttribute("aria-busy");
   });
 
   // Pass the puzzle on: the share sheet on phones, a copied link elsewhere.

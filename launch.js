@@ -1,17 +1,29 @@
 // The launch list and its gift. Joining unwraps the pre-launch code on the ticket: an App Store offer
 // code for a free month of Snug Club (App Store Connect ▸ Snug Club subscription ▸ Offer Codes, a
-// custom code named SNUGEARLY). The form's action says where signups go; see the note on the form.
+// custom code named SNUGEARLY). The launch section's form says where signups go (see the note on it),
+// and every other signup form on the page, like the hero's, sends to the same place.
 (() => {
-  const form = document.getElementById("signup");
-  if (!form) return;
+  const main = document.getElementById("signup");
+  if (!main) return;
+  const forms = [...document.querySelectorAll("form.signup")];
   const card = document.getElementById("launch-card");
   const ticket = document.getElementById("ticket");
   const code = document.getElementById("code");
   const hint = document.getElementById("code-hint");
   const copy = document.getElementById("copy");
-  const joined = document.getElementById("joined");
-  const byEmail = form.getAttribute("action").startsWith("mailto:");
+  const byEmail = main.getAttribute("action").startsWith("mailto:");
   const key = "snug-joined";
+  // Where each form says "you're on the list": its data-joined, or the launch section's panel.
+  const joinedOf = form => document.getElementById(form.dataset.joined || "joined");
+
+  // The other forms send wherever the launch section's does, so there's one place to change.
+  for (const form of forms) {
+    if (form === main) continue;
+    for (const attr of ["action", "method", "enctype", "target"]) {
+      if (main.hasAttribute(attr)) form.setAttribute(attr, main.getAttribute(attr));
+      else form.removeAttribute(attr);
+    }
+  }
 
   // Days to launch, counted in whole calendar days on the visitor's clock.
   const countdown = document.getElementById("countdown");
@@ -23,11 +35,15 @@
   else if (days === 1) countdown.textContent = "Launching tomorrow";
   else if (days === 0) countdown.textContent = "Launching today";
 
+  // Joining anywhere unwraps the gift everywhere: each form gives way to its own "you're on the list".
   function reveal(viaEmail) {
-    form.hidden = true;
-    joined.hidden = false;
-    joined.querySelectorAll(".by-email").forEach(el => { el.hidden = !viaEmail; });
-    joined.querySelectorAll(".by-list").forEach(el => { el.hidden = viaEmail; });
+    for (const form of forms) {
+      const joined = joinedOf(form);
+      form.hidden = true;
+      joined.hidden = false;
+      joined.querySelectorAll(".by-email").forEach(el => { el.hidden = !viaEmail; });
+      joined.querySelectorAll(".by-list").forEach(el => { el.hidden = viaEmail; });
+    }
     ticket.classList.add("open");
     code.removeAttribute("aria-hidden");
     hint.hidden = true;
@@ -37,11 +53,11 @@
   // Back again after joining: the code is waiting. (Only for a real list; an unsent email isn't a signup.)
   try { if (localStorage.getItem(key)) reveal(false); } catch { /* storage blocked */ }
 
-  form.addEventListener("submit", e => {
+  forms.forEach(form => form.addEventListener("submit", e => {
     if (byEmail) {
       e.preventDefault();
       const body = `Please add me to the Snug launch list: ${form.elements.email.value.trim()}`;
-      location.href = `${form.getAttribute("action")}&body=${encodeURIComponent(body)}`;
+      location.href = `${main.getAttribute("action")}&body=${encodeURIComponent(body)}`;
     } else {
       try { localStorage.setItem(key, "1"); } catch { /* storage blocked */ }
     }
@@ -49,9 +65,10 @@
     setTimeout(() => {
       reveal(byEmail);
       card.classList.add("cheer");
-      joined.focus();
+      document.querySelector(".hero-art")?.classList.add("cheer");
+      joinedOf(form).focus();
     });
-  });
+  }));
 
   copy.addEventListener("click", async () => {
     try {

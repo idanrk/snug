@@ -76,21 +76,21 @@
   <section class="features wrap" aria-labelledby="features-title">
     <h2 id="features-title" class="visually-hidden">What's in Snug</h2>
     <div class="grid">
-      <article class="tile t-daily reveal">
+      <article class="tile t-daily reveal" data-tilt>
         <div class="tile-copy">
           <h3>A new daily puzzle, every day</h3>
           <p>Same puzzle for everyone. Keep your streak cozy, with a widget on your Home Screen.</p>
         </div>
         <div class="tile-art"><img src="img/today.webp" width="900" height="1017" loading="lazy" alt="The Today screen: a 22 day streak and today's daily puzzle."></div>
       </article>
-      <article class="tile t-path reveal" style="--d: 70ms">
+      <article class="tile t-path reveal" style="--d: 70ms" data-tilt>
         <div class="tile-copy">
           <h3>300 levels to wander</h3>
           <p>From the meadow all the way to the Moon Garden.</p>
         </div>
         <div class="tile-art"><img src="img/path.webp" width="760" height="807" loading="lazy" alt="The level map: a winding path past lily ponds, with level 37 up next."></div>
       </article>
-      <article class="tile t-hints reveal">
+      <article class="tile t-hints reveal" data-tilt>
         <div class="tile-copy">
           <h3>Hints that teach</h3>
           <p>Stuck? A hint shows the next step and why it works. No guessing, ever.</p>
@@ -100,7 +100,7 @@
           <img class="hint-card" src="img/hint-card.webp" width="760" height="329" loading="lazy" alt="A hint: the rose patch has just one open spot left, so its critter goes right there.">
         </div>
       </article>
-      <article class="tile t-friends reveal" style="--d: 70ms">
+      <article class="tile t-friends reveal" style="--d: 70ms" data-tilt>
         <div class="tile-copy">
           <h3>Befriend 56 critters</h3>
           <p>Hedgehogs, owls, frogs, foxes and more. Win gifts as you play.</p>
@@ -118,7 +118,7 @@
   <section class="promise wrap reveal" aria-labelledby="promise-title">
     <h2 id="promise-title">No ads. No lives. No guessing.</h2>
     <div class="plans">
-      <div class="plan">
+      <div class="plan" data-tilt>
         <h3>Free, forever</h3>
         <p class="price">No ads, no catch</p>
         <ul class="ticks">
@@ -128,7 +128,7 @@
           <li>One answer per puzzle, reachable by logic alone</li>
         </ul>
       </div>
-      <div class="plan club">
+      <div class="plan club" data-tilt>
         <h3>Snug Club</h3>
         <p class="price">$2.99 a month, $14.99 a year with a free week, or $29.99 once for life</p>
         <ul class="ticks">
@@ -161,7 +161,7 @@
       </div>
 
       <div class="launch-gift">
-        <div class="ticket" id="ticket">
+        <div class="ticket" id="ticket" data-tilt>
           <div class="ticket-top">
             <span class="ticket-label">Pre-launch gift</span>
             <strong>1 month of Snug Club, free</strong>
@@ -224,5 +224,6 @@
 <script src="puzzle.js" defer></script>
 <script src="store.js" defer></script>
 <script src="launch.js" defer></script>
+<script src="tilt.js" defer></script>
 </body>
 </html>

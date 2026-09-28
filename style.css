@@ -5,6 +5,7 @@
   --shadow: 74 52 45;
   --soft-strong: #67544B; --tile-daily: #F7E39B; --tile-path: #DDEFD8; --tile-gift: #FADFC9;
   --sky: #B9DBF3; --butter: #F7E39B; --orchid: #F2B8EE; --coral: #F4A596; --teal: #9FDCD3; --peach: #F9CBA7; --berry: #D9544F;
+  --glare: rgb(255 255 255 / .26);
   --ease-out: cubic-bezier(.23, 1, .32, 1);
   --ease-pop: cubic-bezier(.34, 1.5, .64, 1);
   color-scheme: light dark;
@@ -15,6 +16,7 @@
     --outline: #0F0B0C; --accent: #E5835A; --link: #E5835A; --line: rgb(255 255 255 / .1);
     --shadow: 0 0 0;
     --soft-strong: #C9B9AE; --tile-daily: #3A3322; --tile-path: #243129; --tile-gift: #3B2A25;
+    --glare: rgb(255 255 255 / .07);
     --sky: #3F6788; --butter: #8A7A3C; --orchid: #7E4A7C; --coral: #94503F; --teal: #2F7870; --peach: #8C5C48; --berry: #F07C74;
   }
 }
@@ -220,7 +222,7 @@ html { scroll-behavior: smooth; }
 .promise { text-align: center; padding-block: 24px 112px; }
 .promise h2 { font-size: clamp(2.2rem, 1.2rem + 3.6vw, 3.9rem); }
 .plans { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 820px; margin: 40px auto; text-align: left; }
-.plan { display: flex; flex-direction: column; padding: 28px 28px 30px; border-radius: 26px; background: var(--card); border: 1px solid var(--line); }
+.plan { position: relative; display: flex; flex-direction: column; padding: 28px 28px 30px; border-radius: 26px; background: var(--card); border: 1px solid var(--line); }
 .plan.club { border: 2px solid var(--accent); }
 .plans h3 { margin: 0; font-size: 1.4rem; line-height: 1.2; font-weight: 800; letter-spacing: -.01em; }
 .plans .price { margin: 6px 0 0; color: var(--soft); font-weight: 600; font-size: 15px; line-height: 1.45; }
@@ -362,14 +364,25 @@ html { scroll-behavior: smooth; }
   .ticket-code { flex-wrap: wrap; }
 }
 
-/* Motion: an entrance for the hero, a reveal for sections, a pop for critters. */
+/* Motion: an entrance for the hero, sections that tip up into place, critters set down onto the board,
+   and a slight 3D lean toward the pointer (tilt.js). Registered so they ease: --px and --py (where the
+   pointer is over something that tilts, -0.5 to 0.5), and --lift and --tip (a section's reveal). */
+@property --px { syntax: "<number>"; inherits: true; initial-value: 0; }
+@property --py { syntax: "<number>"; inherits: true; initial-value: 0; }
+@property --lift { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@property --tip { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+
 @keyframes rise { from { opacity: 0; transform: translateY(14px); } }
 @keyframes rise-art { from { opacity: 0; transform: translateY(24px) scale(.97); } }
-@keyframes pop { from { opacity: 0; transform: scale(.55); } }
+@keyframes pop { from { opacity: 0; transform: perspective(300px) translate3d(0, -6px, 60px); } }
 @keyframes shake { 20%, 60% { transform: translateX(-3px); } 40%, 80% { transform: translateX(3px); } }
 @keyframes hop { 40% { transform: translateY(-9px) scale(1.04); } 70% { transform: translateY(1px) scale(.98, 1.02); } }
 @keyframes breathe { to { transform: scale(1.035); } }
 @keyframes fade { from { opacity: 0; } }
+@keyframes sway { 0%, 100% { rotate: y 0deg; translate: 0 0; } 25% { rotate: y 5deg; translate: 0 -6px; } 75% { rotate: y -5deg; translate: 0 -3px; } }
+@keyframes wobble { 30% { transform: perspective(900px) rotateX(9deg); } 65% { transform: perspective(900px) rotateX(-3deg); } }
+@keyframes flip-down { from { transform: perspective(300px) rotateX(-95deg); } }
+@keyframes unwrap { from { transform: perspective(400px) rotateX(-90deg); } }
 
 .cell img.in { animation: pop 280ms var(--ease-pop) both; }
 .cell img.out { opacity: 0; transform: scale(.8); transition: opacity 120ms ease-out, transform 120ms ease-out; }
@@ -380,10 +393,46 @@ html { scroll-behavior: smooth; }
   .hero-copy > :nth-child(4) { animation-delay: 210ms; }
   .hero-art { animation: rise-art 820ms var(--ease-out) 120ms both; }
   .lily { animation: breathe 1.6s ease-in-out 1s infinite alternate; }
-  .js .reveal { opacity: 0; transform: translateY(18px); transition: opacity 600ms var(--ease-out), transform 600ms var(--ease-out); transition-delay: var(--d, 0ms); }
-  .js .reveal.in { opacity: 1; transform: none; }
+
+  /* Sections and cards tip up into place, and cards lean toward the pointer. */
+  .js .reveal, [data-tilt] {
+    transform: perspective(1200px) translateY(var(--lift)) rotateX(calc(var(--tip) - var(--py) * var(--tilt, 6deg))) rotateY(calc(var(--px) * var(--tilt, 6deg)));
+    transition: --px 500ms var(--ease-out), --py 500ms var(--ease-out);
+  }
+  .js .reveal {
+    opacity: 0; --lift: 40px; --tip: 12deg;
+    transition: opacity 700ms var(--ease-out) var(--d, 0ms), --lift 900ms var(--ease-out) var(--d, 0ms), --tip 1100ms var(--ease-out) var(--d, 0ms),
+      --px 500ms var(--ease-out), --py 500ms var(--ease-out);
+  }
+  .js .reveal:is(.try, .promise, .launch) { --tip: 6deg; } /* whole sections tip less */
+  .js .reveal.in { opacity: 1; --lift: 0px; --tip: 0deg; }
+  .plan { --tilt: 4deg; }
+  .ticket { --tilt: 8deg; }
+  [data-tilt]::after { /* a soft light that follows the pointer */
+    content: ""; position: absolute; inset: 0; z-index: 2; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity 400ms ease;
+    background: radial-gradient(circle at calc(50% + var(--px) * 100%) calc(50% + var(--py) * 100%), var(--glare), transparent 55%);
+  }
+  [data-tilt].tilting::after { opacity: 1; }
+  .t-hints .hint-card { translate: calc(var(--px) * 12px) calc(var(--py) * 8px); } /* the hint floats over its board */
+  .t-daily .tile-art img { translate: calc(var(--px) * 10px) 0; }
+
+  /* The hero phone floats over its color patches and turns toward the pointer; Lily sits nearest. */
+  .hero-art { perspective: 1100px; transition: --px 700ms var(--ease-out), --py 700ms var(--ease-out); }
+  .phone { transform: rotateX(calc(var(--py) * -10deg)) rotateY(calc(var(--px) * 14deg)); animation: sway 10s ease-in-out 1.4s infinite; }
+  .phone::after { /* a sheen across the glass */
+    content: ""; position: absolute; inset: 9px; border-radius: 41px; pointer-events: none; opacity: 0; transition: opacity 500ms ease;
+    background: linear-gradient(105deg, transparent 38%, rgb(255 255 255 / .18) 48%, transparent 58%) calc(50% - var(--px) * 100%) 0 / 300% 100% no-repeat;
+  }
+  .tilting .phone::after { opacity: 1; }
+  .hero-art::before { translate: calc(var(--px) * -14px) calc(var(--py) * -10px); }
+  .hero-art::after { translate: calc(var(--px) * -24px) calc(var(--py) * -14px); }
+  .lily { translate: calc(var(--px) * 20px) calc(var(--py) * 12px); }
+
   .cell.bad img { animation: shake 320ms ease-in-out; }
   .board.won img { animation: hop 460ms var(--ease-out) both; animation-delay: var(--d, 0ms); }
+  .board.won { animation: wobble 900ms var(--ease-out); }
+  .launch.in .cal { transform-origin: 50% 0; animation: flip-down 900ms var(--ease-pop) 350ms both; } /* the calendar page flips down */
+  .ticket.open code { animation: unwrap 800ms var(--ease-pop) both; } /* the code turns over */
   .cheer .peek img { animation: hop 460ms var(--ease-out) both; }
   .cheer .peek img:nth-child(2) { animation-delay: 80ms; }
   .cheer .peek img:nth-child(3) { animation-delay: 160ms; }

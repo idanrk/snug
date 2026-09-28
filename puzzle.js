@@ -36,7 +36,7 @@
 
   const row = i => Math.floor(i / N), col = i => i % N;
   const placed = new Set();
-  let solved = false, last = null, playing = false, run = 0;
+  let solved = false, last = null, teaching = false;
 
   // Board
   const cells = regions.map((r, i) => {
@@ -49,7 +49,10 @@
     if (row(i) === N - 1) b.classList.add("last-r");
     else if (regions[i + N] !== r) b.classList.add("edge-b");
     b.tabIndex = i === 0 ? 0 : -1;
-    b.addEventListener("click", () => { if (!playing) toggle(i); });
+    b.addEventListener("click", () => {
+      if (!teaching) toggle(i);
+      else if (lesson[step].place === i) advance(); // in the lesson, only the ringed square takes a tap
+    });
     b.addEventListener("keydown", e => move(e, i));
     board.append(b);
     return b;
@@ -116,7 +119,7 @@
     const left = N - placed.size;
     if (reason) status.textContent = reason;
     else if (left === 0) win();
-    else if (!playing) status.textContent = left === N ? "5 critters to place." : `${left} to go.`;
+    else status.textContent = left === N ? "5 critters to place." : `${left} to go.`;
   }
 
   function win() {
@@ -133,10 +136,7 @@
   }
 
   function reset() {
-    run++; // stops a "Show me how" that's still going
-    playing = false;
-    board.removeAttribute("aria-busy");
-    cells.forEach(c => c.classList.remove("lit", "target"));
+    stopLesson();
     solved = false;
     board.classList.remove("won");
     placed.clear();
@@ -152,35 +152,107 @@
     cells[0].focus();
   });
 
-  // "Show me how": the puzzle solves itself one logical step at a time, like the app's hints. Each step
-  // lights up a patch, rings the one square left for its critter and says why, then sets it down.
-  const steps = [
-    [0, "The sky patch is a single square, so its critter goes right there."],
-    [7, "The dots mark squares that are now ruled out. That leaves the butter patch just one open square."],
-    [14, "The top two rows are taken, so the orchid patch has one spot left."],
-    [16, "Two rows and two columns are left, and the coral patch has only one square in them."],
-    [23, "One row, one column and one color to go, and they meet right here."],
+  // "Show me how to play": Lily's lesson on this board, at the player's own pace. First the four rules,
+  // then the solve, the way a person would think it through: find a patch with just one open square,
+  // put its critter there, and see what that rules out. Next (or tapping the ringed square) moves on,
+  // and "Let me try" hands the board back as it is.
+  const squares = [...cells.keys()];
+  const inRow = r => squares.filter(i => row(i) === r);
+  const inCol = c => squares.filter(i => col(i) === c);
+  const inPatch = p => squares.filter(i => regions[i] === p);
+  const around = i => squares.filter(j => j !== i && Math.abs(row(i) - row(j)) <= 1 && Math.abs(col(i) - col(j)) <= 1);
+  const ruledOutBy = i => squares.filter(j => j !== i && conflict(i, j));
+  // Each step lights up squares (lit), tints ones that are off limits (ruled), shows a see-through
+  // critter (ghost), or rings the square where the next critter goes (place).
+  const lesson = [
+    { title: "One in every row", text: "Every row gets exactly one critter. There are five rows, so five critters in all.", lit: inRow(2) },
+    { title: "One in every column", text: "Every column gets exactly one critter, too.", lit: inCol(2) },
+    { title: "One in every color", text: "And every color patch gets exactly one. This teal patch needs a critter, and so does each of the other four.", lit: inPatch(4) },
+    { title: "No touching", text: "Critters need their own space: two can never touch, not even at the corners. A critter here would rule out every square around it.", ghost: 12, ruled: around(12) },
+    { title: "Start where there's one choice", text: "The sky patch is a single square, and it needs a critter, so its critter has to go right here. Tap the ringed square to place it.", lit: inPatch(0), place: 0 },
+    { title: "Dots mark what's ruled out", text: "Now nothing else can go in this critter's row or column, or touch it. The dots mark those squares, so you can skip them.", ruled: ruledOutBy(0) },
+    { title: "Only one spot left", text: "Look at the butter patch: three of its four squares have dots. The fourth is the only place its critter can go.", lit: inPatch(1), place: 7 },
+    { title: "Keep going", text: "That critter ruled out more squares. Now the orchid patch has just one square without a dot.", lit: inPatch(2), place: 14 },
+    { title: "Same trick again", text: "The coral patch is down to one open square, too.", lit: inPatch(3), place: 16 },
+    { title: "The last critter", text: "One row, one column and one color are left, and they all meet in this square.", lit: inPatch(4), place: 23 },
   ];
+  const box = document.getElementById("lesson");
+  const next = document.getElementById("lesson-next");
+  let step = 0, run = 0, moving = false;
   const wait = ms => new Promise(done => setTimeout(done, ms));
-  demo.addEventListener("click", async () => {
-    reset();
-    const me = run;
-    playing = true;
-    demo.hidden = true;
-    board.setAttribute("aria-busy", "true");
-    for (const [i, why] of steps) {
-      cells.forEach((c, j) => c.classList.toggle("lit", regions[j] === regions[i]));
-      cells[i].classList.add("target");
-      status.textContent = why;
-      await wait(2200);
-      if (me !== run) return;
-      cells.forEach(c => c.classList.remove("lit", "target"));
-      toggle(i);
-      await wait(700);
+
+  function show() {
+    const beat = lesson[step];
+    board.querySelectorAll(".ghost").forEach(g => g.remove());
+    cells.forEach((c, i) => {
+      c.classList.toggle("lit", !!beat.lit?.includes(i));
+      c.classList.toggle("ruled", !!beat.ruled?.includes(i));
+      c.classList.toggle("target", beat.place === i);
+    });
+    if (beat.ghost !== undefined) {
+      const g = document.createElement("img");
+      g.src = `img/critters/${patches[regions[beat.ghost]].critter}.webp`;
+      g.alt = "";
+      g.className = "ghost";
+      cells[beat.ghost].append(g);
+    }
+    document.getElementById("lesson-step").textContent = `Step ${step + 1} of ${lesson.length}`;
+    document.getElementById("lesson-title").textContent = beat.title;
+    document.getElementById("lesson-text").textContent = beat.text;
+    next.textContent = beat.place === undefined ? "Next" : "Place it";
+  }
+
+  async function advance() {
+    if (moving) return;
+    const { place } = lesson[step], me = run;
+    if (place !== undefined) {
+      cells.forEach(c => c.classList.remove("lit", "ruled", "target"));
+      toggle(place);
+      if (solved) return finish();
+      moving = true;
+      await wait(650); // let the critter land and its dots appear
+      moving = false;
       if (me !== run) return;
     }
-    playing = false;
-    board.removeAttribute("aria-busy");
+    step++;
+    show();
+  }
+
+  function stopLesson() {
+    run++;
+    teaching = false;
+    box.hidden = true;
+    status.hidden = false;
+    demo.hidden = solved;
+    board.classList.remove("teaching");
+    board.querySelectorAll(".ghost").forEach(g => g.remove());
+    cells.forEach(c => c.classList.remove("lit", "ruled", "target"));
+  }
+
+  function finish() {
+    stopLesson();
+    status.textContent = "Solved! That's the whole trick: find a row, column or color with just one open square, and put its critter there. Every Snug puzzle can be solved this way, with no guessing.";
+    document.getElementById("again").focus();
+  }
+
+  demo.addEventListener("click", () => {
+    reset();
+    teaching = true;
+    step = 0;
+    demo.hidden = true;
+    status.hidden = true;
+    box.hidden = false;
+    board.classList.add("teaching");
+    show();
+    next.focus({ preventScroll: true });
+    // On a phone the card sits above the board: bring both into view.
+    if (matchMedia("(max-width: 767px)").matches) box.scrollIntoView({ block: "start" });
+  });
+  next.addEventListener("click", advance);
+  document.getElementById("lesson-exit").addEventListener("click", () => {
+    stopLesson();
+    update();
+    cells.find(c => c.tabIndex === 0).focus();
   });
 
   // Pass the puzzle on: the share sheet on phones, a copied link elsewhere.

@@ -258,7 +258,7 @@
   // Pass the puzzle on: the share sheet on phones, a copied link elsewhere.
   const share = document.getElementById("share");
   share.addEventListener("click", async () => {
-    const url = "https://idanrk.github.io/snug/#try";
+    const url = "https://snugpuzzle.com/#try";
     try {
       if (navigator.share) {
         await navigator.share({ title: "Snug", text: "A cozy logic puzzle: one critter in every row, column and color, and no two may touch. Can you solve it?", url });

@@ -99,7 +99,7 @@
   // Pass the gift on: the share sheet on phones, a copied link elsewhere.
   const share = document.getElementById("gift-share");
   share.addEventListener("click", async () => {
-    const url = "https://idanrk.github.io/snug/#launch";
+    const url = "https://snugpuzzle.com/#launch";
     try {
       if (navigator.share) {
         await navigator.share({ title: "Snug", text: "Snug, a cozy daily logic puzzle, comes to iPhone on October 20. Join the launch list for a free month of Snug Club.", url });

@@ -46,19 +46,19 @@
         <a class="play" href="#try">Try the first puzzle</a>
         <div class="soon" data-store>Coming to iPhone Oct 20</div>
       </div>
-      <div class="hero-join">
-        <!-- Sends wherever the launch section's form does (launch.js copies its action over). -->
-        <form class="signup" id="hero-signup" action="mailto:idanr391@gmail.com?subject=Snug%20launch%20list" method="post" enctype="text/plain" data-joined="hero-joined">
+      <div class="hero-join" data-list>
+        <form class="signup" id="hero-signup" action="https://app.kit.com/forms/9976568/subscriptions" method="post" data-joined="hero-joined">
           <label class="visually-hidden" for="hero-email">Email address</label>
           <div class="field">
-            <input id="hero-email" name="email_address" type="email" required autocomplete="email" enterkeyhint="send" placeholder="you@example.com">
+            <input id="hero-email" name="email_address" type="email" required autocomplete="email" autocapitalize="off" spellcheck="false" enterkeyhint="send" placeholder="you@example.com">
             <button type="submit">Get my gift</button>
           </div>
+          <p class="form-status" role="status" aria-live="polite"></p>
           <p class="fine">Join the launch list for a note on Oct 20 and a free month of Snug Club.</p>
         </form>
         <p class="hero-joined" id="hero-joined" tabindex="-1" hidden>
-          <strong class="by-list">You're on the list!</strong>
-          <strong class="by-email" hidden>Almost there: send the email that just opened.</strong>
+          <strong class="fresh">Almost there! Tap the button in the email we just sent to confirm.</strong>
+          <strong class="back" hidden>You're on the list!</strong>
           Your gift code is <code>SNUGEARLY</code>. <a href="#launch">How to redeem it</a>
         </p>
       </div>
@@ -203,25 +203,21 @@
           </div>
         </div>
 
-        <!-- Where signups go. For now, a pre-filled email to the developer (launch.js writes it; without
-             JavaScript the browser does). Once the list lives on Kit, swap this opening tag for the line below,
-             with the action copied from the Kit form's Raw HTML embed (FORM_ID is the number in it):
-             <form class="signup" id="signup" action="https://app.kit.com/forms/FORM_ID/subscriptions" method="post" target="_blank">
-             Kit then opens its "check your inbox" step in a new tab, and the page still reveals the gift.
-             The hero's form follows this one. -->
-        <form class="signup" id="signup" action="mailto:idanr391@gmail.com?subject=Snug%20launch%20list" method="post" enctype="text/plain">
+        <!-- Signups go to Kit (form 9976568, "Snug launch list"); launch.js posts them without leaving the page. -->
+        <form class="signup" id="signup" action="https://app.kit.com/forms/9976568/subscriptions" method="post">
           <label class="visually-hidden" for="email">Email address</label>
           <div class="field">
-            <input id="email" name="email_address" type="email" required autocomplete="email" enterkeyhint="send" placeholder="you@example.com">
+            <input id="email" name="email_address" type="email" required autocomplete="email" autocapitalize="off" spellcheck="false" enterkeyhint="send" placeholder="you@example.com">
             <button type="submit">Get my gift</button>
           </div>
+          <p class="form-status" role="status" aria-live="polite"></p>
           <p class="fine">Only Snug news: the launch, and a rare update. Unsubscribe anytime. <a href="privacy.html#launch-list">Privacy</a></p>
         </form>
 
         <div class="joined" id="joined" tabindex="-1" hidden>
-          <h3 class="by-list">You're on the list!</h3>
-          <h3 class="by-email" hidden>Almost there!</h3>
-          <p class="by-email" hidden>Your email app should open with a note ready to go. Send it, and you're on the list. (No email app? Write to <a href="mailto:idanr391@gmail.com?subject=Snug%20launch%20list">idanr391@gmail.com</a>.)</p>
+          <h3 class="fresh">Almost there!</h3>
+          <h3 class="back" hidden>You're on the list!</h3>
+          <p class="fresh">Check your inbox (and spam folder, just in case) and tap the button in our email to confirm.</p>
           <p>Your code is above. Redeem it on the App Store from October 20, and it'll be in your launch-day email too.</p>
           <div class="joined-actions">
             <a class="redeem" href="https://apps.apple.com/redeem?ctx=offercodes&amp;id=6815366788&amp;code=SNUGEARLY">Redeem now</a>

@@ -337,6 +337,10 @@ html { scroll-behavior: smooth; }
 }
 .field button:active { transform: scale(.97); }
 .field button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.field button:disabled { opacity: .55; cursor: default; transform: none; }
+.form-status { margin: 12px 0 0; color: var(--ink); font-weight: 700; font-size: 15px; line-height: 1.45; text-wrap: pretty; }
+.form-status:empty { display: none; }
+.form-status.bad { color: var(--berry); }
 .fine { margin: 12px 0 0; color: var(--soft-strong); font-weight: 600; font-size: 14px; line-height: 1.5; }
 .fine a { color: inherit; text-underline-offset: 2px; }
 

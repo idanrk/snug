@@ -123,6 +123,14 @@
       </div>
     </div>
     <div class="soon" data-store>Coming to iPhone Oct 20</div>
+    <form class="notify" id="notify" action="https://app.kit.com/forms/9976568/subscriptions" method="post" data-list>
+      <label for="notify-email">Want a nudge on launch day?</label>
+      <div class="notify-row">
+        <input id="notify-email" type="email" name="email_address" required autocomplete="email" autocapitalize="off" spellcheck="false" placeholder="you@example.com" aria-describedby="notify-status">
+        <button type="submit">Remind me</button>
+      </div>
+      <p class="notify-note" id="notify-status" role="status" aria-live="polite">We'll email you when Snug comes out. No spam, and you can unsubscribe any time.</p>
+    </form>
   </section>
 </main>
 
@@ -142,5 +150,6 @@
 
 <script src="puzzle.js" defer></script>
 <script src="store.js" defer></script>
+<script src="list.js" defer></script>
 </body>
 </html>

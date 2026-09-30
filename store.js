@@ -1,8 +1,7 @@
-// The App Store buttons. Before launch each [data-store] spot is a "coming" label, because the
-// App Store link is a dead end until Apple releases the app. Once Apple's lookup finds Snug (released,
-// or open for pre-order), every spot becomes the real badge, with no site update needed.
-// Once it's out (not just open for pre-order), the page is marked live, which shows the launch gift's
-// "Redeem now" link: offer codes only work on a released app.
+// The App Store buttons. While Snug is a pre-order each [data-store] spot is a "Pre-order on the App
+// Store" button (a "Download" badge would be wrong). Once Apple's lookup shows Snug released (its release
+// date has passed), every spot becomes the real "Download" badge, with no site update needed, and the page
+// is marked live, which shows the launch gift's "Redeem now" link: offer codes only work on a released app.
 // After launch, put the badges back in the HTML (and drop the launch list form) and this does nothing.
 (() => {
   const spots = document.querySelectorAll("[data-store]");
@@ -21,6 +20,8 @@
     .then((r) => r.json())
     .then(({ resultCount, results }) => {
       if (!resultCount) return;
+      // Still a pre-order: keep the pre-order buttons ("Download" would be wrong until release day).
+      if (new Date(results[0].releaseDate) > new Date()) return;
       spots.forEach((spot, i) => spot.replaceWith(badge(i > 0)));
       // Once Snug is out: the gift code can be redeemed, and the pre-launch signup (anything marked
       // data-list, like the hero's email field) is done with. The launch section stays for its gift.

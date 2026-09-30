@@ -145,19 +145,6 @@ html { scroll-behavior: smooth; }
 @media (hover: hover) and (pointer: fine) { .gift-pill:hover .gift-pill-arrow { transform: translateX(3px); } }
 .gift-pill:active { transform: scale(.98); }
 .gift-pill:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
-/* A quiet Product Hunt link under the buttons; ph.js keeps the words true for the date. */
-.ph-pill {
-  display: inline-flex; align-items: center; gap: 10px; margin-top: 20px; padding: 6px 16px 6px 7px; border-radius: 999px;
-  background: var(--card); border: 1.5px solid var(--faint); color: var(--soft-strong); text-decoration: none; font-weight: 700; font-size: 15px; line-height: 1.2;
-  transition: transform 160ms var(--ease-out), border-color 160ms var(--ease-out);
-}
-.ph-logo { flex: none; display: block; }
-.ph-text b { color: var(--ink); font-weight: 800; }
-.ph-arrow { color: var(--link); transition: transform 200ms var(--ease-out); }
-@media (hover: hover) and (pointer: fine) { .ph-pill:hover { border-color: #FF6154; } .ph-pill:hover .ph-arrow { transform: translateX(3px); } }
-.ph-pill:active { transform: scale(.98); }
-.ph-pill:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
-@media (max-width: 400px) { .ph-pill { font-size: 14px; gap: 8px; padding-right: 13px; } }
 .hero-join { max-width: 470px; margin-top: 26px; }
 .hero-join .signup { margin: 0; }
 .hero-joined {
@@ -472,7 +459,6 @@ html { scroll-behavior: smooth; }
   .hero-copy > :nth-child(3) { animation-delay: 140ms; }
   .hero-copy > :nth-child(4) { animation-delay: 210ms; }
   .hero-copy > :nth-child(5) { animation-delay: 280ms; }
-  .hero-copy > :nth-child(6) { animation-delay: 350ms; }
   .hero-art { animation: rise-art 820ms var(--ease-out) 120ms both; }
   .lily { animation: breathe 1.6s ease-in-out 1s infinite alternate; }
 

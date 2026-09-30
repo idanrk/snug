@@ -496,6 +496,26 @@ html { scroll-behavior: smooth; }
   .hero-art::after { translate: calc(var(--px) * -24px) calc(var(--py) * -14px); }
   .lily { translate: calc(var(--px) * 20px) calc(var(--py) * 12px); }
 
+  /* On touch there's no pointer to follow, so the phone answers the scroll (tilt.js sets --sp: 1 as the phone
+     comes up the screen, 0 in the middle, -1 as it leaves). It tips back to face you, then forward as it goes,
+     and the sheen slides across the glass. The patches sit behind it and Lily in front, so they slip past at
+     their own speeds. There's no idle sway here: the only motion is the scroll. */
+  @media (hover: none), (pointer: coarse) {
+    .hero-art { perspective: 900px; }
+    /* It plays when it's seen, not at page load: on a phone it starts below the fold. */
+    .js .hero-art:not(.in) { opacity: 0; animation: none; }
+    .hero-art.in { animation: rise-art 820ms var(--ease-out) both; }
+    .hero-art:not(.live) .lily { animation-play-state: paused; }
+    .phone {
+      transform: rotateX(calc(var(--sp, 0) * 14deg)) rotateY(calc(var(--sp, 0) * -8deg));
+      animation: none; will-change: transform;
+    }
+    .phone::after { opacity: 1; background-position: calc(50% - var(--sp, 0) * 50%) 0; }
+    .hero-art::before { translate: 0 calc(var(--sp, 0) * -30px); }
+    .hero-art::after { translate: 0 calc(var(--sp, 0) * -52px); }
+    .lily { translate: 0 calc(var(--sp, 0) * 34px); }
+  }
+
   .cell.bad img { animation: shake 320ms ease-in-out; }
   .board.won img { animation: hop 460ms var(--ease-out) both; animation-delay: var(--d, 0ms); }
   .board.won { animation: wobble 900ms var(--ease-out); }

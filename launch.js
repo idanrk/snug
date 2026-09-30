@@ -1,6 +1,6 @@
 // The launch list and its gift. Joining unwraps the pre-launch code on the ticket: an App Store offer
-// code for a free month of Snug Club (App Store Connect ▸ Snug Club subscription ▸ Offer Codes, a
-// custom code named SNUGEARLY).
+// code for a free month of Snug Club Monthly (offer "Launch list gift"; the custom code SNUGEARLY, 25,000
+// codes, was attached on 2026-09-30 and works once the app is out on Oct 20).
 // The signup forms (the hero's and the launch section's) post to Kit (form 9976568, "Snug launch
 // list"), which emails a confirmation link; an address joins the list only once that link is tapped,
 // and Kit then opens subscribed.html. Here the post stays on the page. Without JS the browser posts

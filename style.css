@@ -484,36 +484,31 @@ html { scroll-behavior: smooth; }
   .t-hints .hint-card { translate: calc(var(--px) * 12px) calc(var(--py) * 8px); } /* the hint floats over its board */
   .t-daily .tile-art img { translate: calc(var(--px) * 10px) 0; }
 
-  /* The hero phone floats over its color patches and turns toward the pointer; Lily sits nearest. */
+  /* The hero phone floats over its color patches. It turns toward the pointer (--px, --py) and answers the
+     scroll (--sp, from tilt.js: 1 as the phone comes up the screen, 0 in the middle, -1 as it leaves), so it
+     tips back to face you and then forward as it goes, and the sheen slides across the glass. The patches sit
+     behind it and Lily in front, so they slip past at their own speeds. Nothing is hidden until it's "seen":
+     the phone is painted from the first frame, wherever the scroll lands. */
   .hero-art { perspective: 1100px; transition: --px 700ms var(--ease-out), --py 700ms var(--ease-out); }
-  .phone { transform: rotateX(calc(var(--py) * -10deg)) rotateY(calc(var(--px) * 14deg)); animation: sway 10s ease-in-out 1.4s infinite; }
-  .phone::after { /* a sheen across the glass */
-    content: ""; position: absolute; inset: 9px; border-radius: 41px; pointer-events: none; opacity: 0; transition: opacity 500ms ease;
-    background: linear-gradient(105deg, transparent 38%, rgb(255 255 255 / .18) 48%, transparent 58%) calc(50% - var(--px) * 100%) 0 / 300% 100% no-repeat;
+  .phone {
+    transform: rotateX(calc(var(--py) * -10deg + var(--sp, 0) * 14deg)) rotateY(calc(var(--px) * 14deg + var(--sp, 0) * -8deg));
+    animation: sway 10s ease-in-out 1.4s infinite;
   }
-  .tilting .phone::after { opacity: 1; }
-  .hero-art::before { translate: calc(var(--px) * -14px) calc(var(--py) * -10px); }
-  .hero-art::after { translate: calc(var(--px) * -24px) calc(var(--py) * -14px); }
-  .lily { translate: calc(var(--px) * 20px) calc(var(--py) * 12px); }
+  .phone::after { /* a sheen across the glass, while the pointer moves or the page scrolls */
+    content: ""; position: absolute; inset: 9px; border-radius: 41px; pointer-events: none; opacity: 0; transition: opacity 500ms ease;
+    background: linear-gradient(105deg, transparent 38%, rgb(255 255 255 / .18) 48%, transparent 58%) calc(50% - (var(--px) + var(--sp, 0) * .5) * 100%) 0 / 300% 100% no-repeat;
+  }
+  .tilting .phone::after, .scrolling .phone::after { opacity: 1; }
+  .hero-art::before { translate: calc(var(--px) * -14px) calc(var(--py) * -10px + var(--sp, 0) * -30px); }
+  .hero-art::after { translate: calc(var(--px) * -24px) calc(var(--py) * -14px + var(--sp, 0) * -52px); }
+  .lily { translate: calc(var(--px) * 20px) calc(var(--py) * 12px + var(--sp, 0) * 34px); }
 
-  /* On touch there's no pointer to follow, so the phone answers the scroll (tilt.js sets --sp: 1 as the phone
-     comes up the screen, 0 in the middle, -1 as it leaves). It tips back to face you, then forward as it goes,
-     and the sheen slides across the glass. The patches sit behind it and Lily in front, so they slip past at
-     their own speeds. There's no idle sway here: the only motion is the scroll. */
+  /* On touch there's no pointer and no idle sway: the only motion is the scroll, with the sheen always on. */
   @media (hover: none), (pointer: coarse) {
     .hero-art { perspective: 900px; }
-    /* It plays when it's seen, not at page load: on a phone it starts below the fold. */
-    .js .hero-art:not(.in) { opacity: 0; animation: none; }
-    .hero-art.in { animation: rise-art 820ms var(--ease-out) both; }
     .hero-art:not(.live) .lily { animation-play-state: paused; }
-    .phone {
-      transform: rotateX(calc(var(--sp, 0) * 14deg)) rotateY(calc(var(--sp, 0) * -8deg));
-      animation: none; will-change: transform;
-    }
-    .phone::after { opacity: 1; background-position: calc(50% - var(--sp, 0) * 50%) 0; }
-    .hero-art::before { translate: 0 calc(var(--sp, 0) * -30px); }
-    .hero-art::after { translate: 0 calc(var(--sp, 0) * -52px); }
-    .lily { translate: 0 calc(var(--sp, 0) * 34px); }
+    .phone { animation: none; will-change: transform; }
+    .phone::after { opacity: 1; }
   }
 
   .cell.bad img { animation: shake 320ms ease-in-out; }

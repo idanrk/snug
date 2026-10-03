@@ -280,6 +280,11 @@ html { scroll-behavior: smooth; }
 .t-friends .tile-art { position: relative; flex: 1; min-height: 230px; margin: 22px; padding: 0; border-radius: 20px; overflow: hidden; }
 .t-friends .tile-art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 70%; }
 
+/* What kind of puzzle: the genre by name, for people who know it as Star Battle. */
+.about { text-align: center; padding-block: 0 104px; }
+.about h2 { margin: 0; font-weight: 800; letter-spacing: -.022em; line-height: 1.08; text-wrap: balance; font-size: clamp(2rem, 1.4rem + 2vw, 2.9rem); }
+.about p { font-size: 1.125rem; color: var(--soft); font-weight: 600; max-width: 56ch; margin: 16px auto 0; text-wrap: pretty; }
+
 /* Promise */
 .promise { text-align: center; padding-block: 24px 112px; }
 .promise h2 { font-size: clamp(2.2rem, 1.2rem + 3.6vw, 3.9rem); }
@@ -400,6 +405,7 @@ html { scroll-behavior: smooth; }
   .hero-art { width: min(270px, 72vw); }
   .lily { width: 96px; left: -62px; bottom: -18px; }
   .try { grid-template-columns: 1fr; padding-block: 16px 80px; }
+  .about { padding-block: 0 80px; }
   .try-board { justify-self: center; }
   .try-copy { order: -1; }
   .grid { grid-template-columns: 1fr; }
@@ -472,7 +478,7 @@ html { scroll-behavior: smooth; }
     transition: opacity 700ms var(--ease-out) var(--d, 0ms), --lift 900ms var(--ease-out) var(--d, 0ms), --tip 1100ms var(--ease-out) var(--d, 0ms),
       --px 500ms var(--ease-out), --py 500ms var(--ease-out);
   }
-  .js .reveal:is(.try, .promise, .launch) { --tip: 6deg; } /* whole sections tip less */
+  .js .reveal:is(.try, .about, .promise, .launch) { --tip: 6deg; } /* whole sections tip less */
   .js .reveal.in { opacity: 1; --lift: 0px; --tip: 0deg; }
   .plan { --tilt: 4deg; }
   .ticket { --tilt: 8deg; }

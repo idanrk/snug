@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Snug: Cozy Daily Logic Puzzles</title>
-<meta name="description" content="A cozy daily logic puzzle for iPhone. One critter in every row, column and color, and no two may touch. No ads, no lives, no guessing.">
+<title>Snug: Cozy Daily Logic Puzzles | Star Battle Game for iPhone</title>
+<meta name="description" content="Snug is a cozy Star Battle puzzle game for iPhone. One critter in every row, column and color, and no two may touch. No ads, no lives, no guessing.">
 <meta name="apple-itunes-app" content="app-id=6815366788">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#FBF5EC" media="(prefers-color-scheme: light)">
@@ -25,6 +25,45 @@
 <link rel="preload" as="image" href="img/board.webp" fetchpriority="high">
 <link rel="stylesheet" href="style.css">
 <script>document.documentElement.classList.add("js")</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://snugpuzzle.com/#website",
+      "url": "https://snugpuzzle.com/",
+      "name": "Snug",
+      "alternateName": ["Snug: Cozy Daily Logic Puzzles", "Snug Puzzle"],
+      "inLanguage": "en"
+    },
+    {
+      "@type": "MobileApplication",
+      "@id": "https://snugpuzzle.com/#app",
+      "name": "Snug: Cozy Daily Logic Puzzles",
+      "alternateName": "Snug",
+      "url": "https://snugpuzzle.com/",
+      "description": "A cozy Star Battle logic puzzle game for iPhone. One critter in every row, column and color patch, and no two may touch. No ads, no lives, no guessing.",
+      "operatingSystem": "iOS 18 or later",
+      "applicationCategory": "GameApplication",
+      "applicationSubCategory": "Puzzle",
+      "genre": ["Puzzle", "Logic puzzle", "Star Battle"],
+      "image": "https://snugpuzzle.com/icon.png",
+      "screenshot": "https://snugpuzzle.com/press/screenshots/snug-board.png",
+      "installUrl": "https://apps.apple.com/app/id6815366788",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "author": { "@type": "Person", "name": "Idan Rokach" },
+      "sameAs": [
+        "https://apps.apple.com/app/id6815366788",
+        "https://www.tiktok.com/@snugpuzzle",
+        "https://www.instagram.com/snugpuzzle/",
+        "https://www.youtube.com/@SnugPuzzle",
+        "https://x.com/SnugPuzzle"
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body class="home">
 
@@ -41,7 +80,7 @@
     <div class="hero-copy">
       <a class="gift-pill" href="#launch"><span class="gift-pill-tag">Launch gift</span> A free month of Snug Club <span class="gift-pill-arrow" aria-hidden="true">→</span></a>
       <h1>Every critter needs a snug spot.</h1>
-      <p class="lede">A cozy daily logic puzzle for iPhone. One critter in every row, column and color, and no two may touch.</p>
+      <p class="lede">A cozy daily Star Battle puzzle for iPhone. One critter in every row, column and color, and no two may touch.</p>
       <div class="cta">
         <a class="preorder" data-store href="https://apps.apple.com/us/app/id6815366788"><svg class="as-icon" viewBox="0 0 36 36" width="36" height="36" aria-hidden="true" focusable="false"><defs><linearGradient id="asg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1FC7FF"/><stop offset="1" stop-color="#1A5BF0"/></linearGradient></defs><rect width="36" height="36" rx="8.5" fill="url(#asg)"/><g fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M18 8.5 10.5 25.5"/><path d="M18 8.5 25.5 25.5"/><path d="M12.6 20.5h10.8"/></g></svg><span class="preorder-text"><strong>Pre-order on the App Store</strong><small>Free. Arrives Oct 20</small></span><span class="preorder-arrow" aria-hidden="true">&rarr;</span></a>
         <a class="play" href="#try">Try the first puzzle</a>
@@ -77,7 +116,7 @@
       <div class="tray" id="tray" aria-hidden="true"></div>
     </div>
     <div class="try-copy">
-      <h2 id="try-title">Try the first puzzle</h2>
+      <h2 id="try-title">Try a Star Battle puzzle</h2>
       <p>Every row, column and color gets exactly one critter, and critters can't touch, not even at the corners. Tap a square to place one.</p>
       <p class="status" id="status" role="status" aria-live="polite">5 critters to place.</p>
       <button class="again show-me" id="demo" type="button">Show me how to play</button>
@@ -142,6 +181,12 @@
         </div>
       </article>
     </div>
+  </section>
+
+  <section class="about wrap reveal" aria-labelledby="about-title">
+    <h2 id="about-title">What kind of puzzle is Snug?</h2>
+    <p>Snug is a Star Battle puzzle with critters instead of stars. Place one in every row, every column and every color patch, and make sure no two touch, not even at the corners.</p>
+    <p>Every puzzle has exactly one answer, and you can always reach it by logic alone.</p>
   </section>
 
   <section class="promise wrap reveal" aria-labelledby="promise-title">

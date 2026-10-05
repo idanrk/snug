@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Practice Star Battle Puzzles Free Online | Lily's School, by Snug</title>
+<meta name="description" content="Twelve free practice boards that teach Star Battle one trick at a time, from a first 5 by 5 to the kinds of board the Snug daily brings. Hints explain every step and never run out.">
+<meta name="apple-itunes-app" content="app-id=6815366788">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#FBF5EC" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1C1719" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://snugpuzzle.com/practice">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Snug">
+<meta property="og:title" content="Lily's school: practice boards for the Snug daily">
+<meta property="og:description" content="Twelve free boards that teach the tricks one at a time. One critter in every row, column and color, and no two may touch.">
+<meta property="og:url" content="https://snugpuzzle.com/practice">
+<meta property="og:image" content="https://snugpuzzle.com/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Snug's critters on a cozy sofa, beside the words: cozy daily logic puzzles.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="style.css">
+<!-- One page, two views: the list of boards, or one board being played (?board=N). The class picks
+     which shows before anything paints; practice.js corrects it if the number doesn't exist. -->
+<script>document.documentElement.classList.add("js", /[?&]board=[1-9]/.test(location.search) ? "playing" : "listing")</script>
+</head>
+<body class="daily practice">
+
+<header class="bar wrap">
+  <a class="brand" href="./"><img src="img/icon.webp" width="36" height="36" alt=""> Snug</a>
+  <nav class="bar-nav" aria-label="Main">
+    <a class="bar-link" href="daily.html">Today's daily</a>
+    <a class="bar-cta" href="https://apps.apple.com/app/id6815366788">Get the app</a>
+  </nav>
+</header>
+
+<main>
+  <section class="school wrap" id="school" aria-labelledby="school-title">
+    <div class="school-head">
+      <div class="school-copy">
+        <p class="eyebrow">Practice</p>
+        <h1 id="school-title">Lily's school</h1>
+        <p class="lede">Twelve boards that teach the tricks one at a time, from a first 5 by 5 to the kinds of board the daily brings. Take your time: hints never run out here.</p>
+        <p class="school-links"><a class="again" href="daily.html">Play today's daily</a><span class="school-tally" id="school-tally"></span></p>
+      </div>
+      <img class="school-lily" src="img/lily.webp" width="241" height="212" alt="">
+    </div>
+    <ol class="boards" id="boards"></ol>
+    <noscript><p class="status">The practice boards need JavaScript to run. You can still read how to play on the <a href="daily.html#how">daily's page</a>.</p></noscript>
+    <p class="school-foot">Brand new? <a href="./#try">Lily's first lesson</a> walks you through a tiny board in a minute. Every board here has exactly one answer, and you never need to guess.</p>
+  </section>
+
+  <div class="dplay wrap" id="play">
+    <div class="dplay-head">
+      <p class="eyebrow" id="day-date"><a href="?">Lily's school</a></p>
+      <h1 id="day-title">Practice board</h1>
+      <p class="chips" id="chips" aria-label="This board"></p>
+      <p class="rule" id="rule">One critter in every row, column and color. No touching.</p>
+      <p class="tip"><img src="img/lily.webp" width="241" height="212" alt=""><span><b>Lily's tip.</b> <span id="tip"></span></span></p>
+    </div>
+
+    <div class="stage">
+      <div class="pboard" id="board">
+        <svg class="pboard-paint" id="paint" aria-hidden="true" focusable="false" preserveAspectRatio="none"></svg>
+        <div class="pcells" id="cells" role="group" aria-label="Practice board"></div>
+      </div>
+      <div class="ptray" id="tray"></div>
+      
+    </div>
+
+    <div class="dplay-panel">
+      <div class="meter" id="meter">
+        <span class="clock" id="clock" aria-label="Time">0:00</span>
+        <p class="status" id="status" role="status" aria-live="polite">Tap a square once for ✕, twice for a critter.</p>
+      </div>
+
+      <div class="tools" id="tools">
+        <button class="tool" id="undo" type="button" aria-label="Undo" disabled>
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M9 14 4 9l5-5M4 9h10a6 6 0 0 1 0 12h-3" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="tool" id="redo" type="button" aria-label="Redo" disabled>
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="m15 14 5-5-5-5M20 9H10a6 6 0 0 0 0 12h3" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="tool tool-hint" id="hint-button" type="button">
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M9 18h6M10 21.5h4M12 2.5a6.5 6.5 0 0 0-4 11.6c.7.6 1 1.2 1 1.9h6c0-.7.3-1.3 1-1.9a6.5 6.5 0 0 0-4-11.6Z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span id="hint-label">Hint</span>
+          <span class="jar" id="jar" aria-hidden="true" hidden></span>
+        </button>
+        <button class="tool" id="restart" type="button" aria-label="Start over" disabled>
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 4v6h6M4.6 15a8 8 0 1 0 1.3-8.2L4 10" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <p class="tools-note" id="tools-note" hidden></p>
+      </div>
+
+      <div class="hint-card" id="hint-card" hidden>
+        <img class="hint-lily" src="img/lily.webp" width="241" height="212" alt="">
+        <div aria-live="polite" aria-atomic="true">
+          <p class="hint-kicker" id="hint-kicker">Hint</p>
+          <h2 id="hint-title"></h2>
+          <p id="hint-text"></p>
+        </div>
+        <div class="hint-actions">
+          <button class="again" id="hint-dismiss" type="button">Got it</button>
+          <button class="lesson-next" id="hint-apply" type="button">Show me</button>
+        </div>
+      </div>
+
+      <div class="result" id="result" tabindex="-1" hidden>
+        <div class="stars" id="stars" role="img" aria-label="">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.8 5.9 6.4.8-4.7 4.5 1.2 6.4L12 17.1l-5.7 3.1 1.2-6.4L2.8 9.3l6.4-.8z"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.8 5.9 6.4.8-4.7 4.5 1.2 6.4L12 17.1l-5.7 3.1 1.2-6.4L2.8 9.3l6.4-.8z"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.8 5.9 6.4.8-4.7 4.5 1.2 6.4L12 17.1l-5.7 3.1 1.2-6.4L2.8 9.3l6.4-.8z"/></svg>
+        </div>
+        <h2 id="result-title">Solved!</h2>
+        <p class="result-facts" id="result-facts"></p>
+        <p class="result-streaks" id="school-done" hidden>That's the whole school. The daily is yours now, a new one every day.</p>
+        <div class="result-actions">
+          <a class="lesson-next" id="next-board" href="?">Next board</a>
+          <button class="again" id="again" type="button">Play it again</button>
+          <a class="next" href="?">All boards</a>
+        </div>
+        <div class="more">
+          <div class="more-copy">
+            <img src="img/critters/hazel.webp" width="157" height="176" loading="lazy" alt="">
+            <div>
+              <h3>Hundreds more on iPhone</h3>
+              <p>The app has 300 levels (the first 100 free), a streak widget for your Home Screen and 56 critters to befriend. No ads, no lives.</p>
+            </div>
+          </div>
+            <a class="preorder" data-store href="https://apps.apple.com/app/id6815366788"><svg class="as-icon" viewBox="0 0 36 36" width="36" height="36" aria-hidden="true" focusable="false"><defs><linearGradient id="asg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1FC7FF"/><stop offset="1" stop-color="#1A5BF0"/></linearGradient></defs><rect width="36" height="36" rx="8.5" fill="url(#asg)"/><g fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M18 8.5 10.5 25.5"/><path d="M18 8.5 25.5 25.5"/><path d="M12.6 20.5h10.8"/></g></svg><span class="preorder-text"><strong>Pre-order on the App Store</strong><small>Free. Arrives Oct 20</small></span><span class="preorder-arrow" aria-hidden="true">&rarr;</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="foot wrap">
+  <a class="brand" href="./"><img src="img/icon.webp" width="28" height="28" alt=""> Snug</a>
+  <nav aria-label="More">
+    <a href="daily.html">Daily puzzle</a>
+    <a href="./">About the app</a>
+    <a href="support.html">Help &amp; support</a>
+    <a href="press.html">Press kit</a>
+    <a href="https://www.tiktok.com/@snugpuzzle">TikTok</a>
+    <a href="https://www.instagram.com/snugpuzzle/">Instagram</a>
+    <a href="https://www.youtube.com/@SnugPuzzle">YouTube</a>
+    <a href="https://x.com/SnugPuzzle">X</a>
+    <a href="privacy.html">Privacy policy</a>
+  </nav>
+</footer>
+
+<script src="practice-data.js" defer></script>
+<script src="engine.js" defer></script>
+<script src="practice.js" defer></script>
+<script src="play.js" defer></script>
+<script src="store.js" defer></script>
+</body>
+</html>
